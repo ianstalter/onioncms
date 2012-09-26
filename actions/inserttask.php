@@ -2,9 +2,8 @@
 session_start();
 if($_SESSION['logged'] == 1) {
     echo 'You are logged in --- ' . $_SESSION['username'];
-	 echo'---> <a href = "/onioncms/actions/logout.php"> logout </a>';
-	 	 echo'---> <a href = "/onioncms/default.php/?Id=1"> home </a>';
-		 	 	 echo '--> Project Added!';
+		 	 echo"---> <a href = '/onioncms/default.php/?Id=" . $_GET['Id'] . "'>go back</a>";
+
 } else {
     header('location:login_form.php');
 }
@@ -34,24 +33,17 @@ if (!$con)
 
 mysql_select_db("mycms", $con);
 
-$_POST['Content']=nl2br($_POST['Content']);
+$_POST['content']=nl2br($_POST['content']);
 
-$sql="INSERT INTO content (Title, Content, Date, Time, Tags, assigned, reported, status)
+$sql="INSERT INTO tasks (task, content, date, time, status, assigned, reported, associated, comment_count, priority)
 VALUES
-('$_POST[Title]','$_POST[Content]','$date', '$time', '$_POST[Tags]', '$_POST[assigned]','$_SESSION[username]', '$_POST[status]')";
+('$_POST[task]','$_POST[content]','$date', '$time', '$_POST[status]', '$_POST[assigned]','$_SESSION[username]', '$_GET[Id]', '0', '$_POST[priority]')";
 
 
 if (!mysql_query($sql,$con))
   {
   die('Error: ' . mysql_error());
   }
-
-
-//echo $_POST['Title'];
-//echo "</br>";
-//echo "<p>";
-//echo 'Content'.nl2br($_POST['Content']);
-//echo "</p>";
 
 
 
